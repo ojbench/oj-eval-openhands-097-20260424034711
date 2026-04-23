@@ -22,24 +22,33 @@ class Solution {
 public:
     // Function to find the kth largest element in BST
     int kthLargest(TreeNode* root, int k) {
-        vector<int> values;
-        inorderTraversal(root, values);
-        
-        // Sort in descending order to get kth largest
-        sort(values.begin(), values.end(), greater<int>());
-        
-        // Return kth largest (k-1 index since 0-based)
-        return values[k-1];
+        count = k;
+        result = -1;
+        reverseInorder(root);
+        return result;
     }
     
 private:
-    // Helper function to perform inorder traversal and collect values
-    void inorderTraversal(TreeNode* node, vector<int>& values) {
-        if (node == nullptr) return;
+    int count;
+    int result;
+    
+    // Helper function to perform reverse inorder traversal
+    // (right -> root -> left) to get values in descending order
+    void reverseInorder(TreeNode* node) {
+        if (node == nullptr || result != -1) return;
         
-        values.push_back(node->val);
-        inorderTraversal(node->left, values);
-        inorderTraversal(node->right, values);
+        // Traverse right subtree first (larger values)
+        reverseInorder(node->right);
+        
+        // Visit current node
+        count--;
+        if (count == 0) {
+            result = node->val;
+            return;
+        }
+        
+        // Traverse left subtree (smaller values)
+        reverseInorder(node->left);
     }
 };
 
