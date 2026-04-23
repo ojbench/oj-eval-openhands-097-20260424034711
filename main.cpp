@@ -56,31 +56,35 @@ private:
 TreeNode* buildTreeFromLevelOrder(const vector<int>& arr) {
     if (arr.empty() || arr[0] == -1) return nullptr;
     
-    TreeNode* root = new TreeNode(arr[0]);
-    vector<TreeNode*> queue;
-    queue.push_back(root);
-    
-    int i = 1;
-    while (i < arr.size() && !queue.empty()) {
-        TreeNode* current = queue[0];
-        queue.erase(queue.begin());
-        
-        // Left child
-        if (i < arr.size() && arr[i] != -1 && arr[i] != 0) {
-            current->left = new TreeNode(arr[i]);
-            queue.push_back(current->left);
+    // Create nodes for all elements
+    vector<TreeNode*> nodes;
+    for (int val : arr) {
+        if (val == -1 || val == 0) {
+            nodes.push_back(nullptr);
+        } else {
+            nodes.push_back(new TreeNode(val));
         }
-        i++;
-        
-        // Right child
-        if (i < arr.size() && arr[i] != -1 && arr[i] != 0) {
-            current->right = new TreeNode(arr[i]);
-            queue.push_back(current->right);
-        }
-        i++;
     }
     
-    return root;
+    // Connect nodes according to level order
+    int n = nodes.size();
+    for (int i = 0; i < n; i++) {
+        if (nodes[i] != nullptr) {
+            // Left child is at 2*i + 1
+            int leftIdx = 2 * i + 1;
+            if (leftIdx < n) {
+                nodes[i]->left = nodes[leftIdx];
+            }
+            
+            // Right child is at 2*i + 2
+            int rightIdx = 2 * i + 2;
+            if (rightIdx < n) {
+                nodes[i]->right = nodes[rightIdx];
+            }
+        }
+    }
+    
+    return nodes[0];
 }
 
 // Function to parse input array from string
