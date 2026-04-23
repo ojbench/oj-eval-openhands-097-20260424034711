@@ -61,19 +61,19 @@ TreeNode* buildTreeFromLevelOrder(const vector<int>& arr) {
     queue.push_back(root);
     
     int i = 1;
-    while (i < arr.size()) {
+    while (i < arr.size() && !queue.empty()) {
         TreeNode* current = queue[0];
         queue.erase(queue.begin());
         
         // Left child
-        if (i < arr.size() && arr[i] != -1) {
+        if (i < arr.size() && arr[i] != -1 && arr[i] != 0) {
             current->left = new TreeNode(arr[i]);
             queue.push_back(current->left);
         }
         i++;
         
         // Right child
-        if (i < arr.size() && arr[i] != -1) {
+        if (i < arr.size() && arr[i] != -1 && arr[i] != 0) {
             current->right = new TreeNode(arr[i]);
             queue.push_back(current->right);
         }
