@@ -130,7 +130,12 @@ int main() {
     // Extract cnt value
     string cntStr = input.substr(cntPos + 6);  // "cnt = " is 6 characters
     cntStr.erase(0, cntStr.find_first_not_of(" \t"));
-    int cnt = stoi(cntStr);
+    int cnt;
+    try {
+        cnt = stoi(cntStr);
+    } catch (const std::exception& e) {
+        return 1;
+    }
     
     // Parse array and build tree
     vector<int> arr = parseArray(rootStr);
