@@ -102,7 +102,11 @@ vector<int> parseArray(const string& input) {
         if (item == "null" || item.empty()) {
             result.push_back(-1);  // Using -1 to represent null
         } else {
-            result.push_back(stoi(item));
+            try {
+                result.push_back(stoi(item));
+            } catch (const std::exception& e) {
+                result.push_back(-1);
+            }
         }
     }
     
