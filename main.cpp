@@ -1,9 +1,10 @@
 
-#include &lt;vector&gt;
-#include &lt;iostream&gt;
-#include &lt;algorithm&gt;
-#include &lt;sstream&gt;
-#include &lt;string&gt;
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <sstream>
+#include <string>
+#include <cstddef>
 
 using namespace std;
 
@@ -21,11 +22,11 @@ class Solution {
 public:
     // Function to find the kth largest element in BST
     int kthLargest(TreeNode* root, int k) {
-        vector&lt;int&gt; values;
+        vector<int> values;
         inorderTraversal(root, values);
         
         // Sort in descending order to get kth largest
-        sort(values.begin(), values.end(), greater&lt;int&gt;());
+        sort(values.begin(), values.end(), greater<int>());
         
         // Return kth largest (k-1 index since 0-based)
         return values[k-1];
@@ -33,39 +34,39 @@ public:
     
 private:
     // Helper function to perform inorder traversal and collect values
-    void inorderTraversal(TreeNode* node, vector&lt;int&gt;&amp; values) {
+    void inorderTraversal(TreeNode* node, vector<int>& values) {
         if (node == nullptr) return;
         
-        values.push_back(node-&gt;val);
-        inorderTraversal(node-&gt;left, values);
-        inorderTraversal(node-&gt;right, values);
+        values.push_back(node->val);
+        inorderTraversal(node->left, values);
+        inorderTraversal(node->right, values);
     }
 };
 
 // Function to build tree from level order array
-TreeNode* buildTreeFromLevelOrder(const vector&lt;int&gt;&amp; arr) {
+TreeNode* buildTreeFromLevelOrder(const vector<int>& arr) {
     if (arr.empty() || arr[0] == -1) return nullptr;
     
     TreeNode* root = new TreeNode(arr[0]);
-    vector&lt;TreeNode*&gt; queue;
+    vector<TreeNode*> queue;
     queue.push_back(root);
     
     int i = 1;
-    while (i &lt; arr.size()) {
+    while (i < arr.size()) {
         TreeNode* current = queue[0];
         queue.erase(queue.begin());
         
         // Left child
-        if (i &lt; arr.size() &amp;&amp; arr[i] != -1) {
-            current-&gt;left = new TreeNode(arr[i]);
-            queue.push_back(current-&gt;left);
+        if (i < arr.size() && arr[i] != -1) {
+            current->left = new TreeNode(arr[i]);
+            queue.push_back(current->left);
         }
         i++;
         
         // Right child
-        if (i &lt; arr.size() &amp;&amp; arr[i] != -1) {
-            current-&gt;right = new TreeNode(arr[i]);
-            queue.push_back(current-&gt;right);
+        if (i < arr.size() && arr[i] != -1) {
+            current->right = new TreeNode(arr[i]);
+            queue.push_back(current->right);
         }
         i++;
     }
@@ -74,8 +75,8 @@ TreeNode* buildTreeFromLevelOrder(const vector&lt;int&gt;&amp; arr) {
 }
 
 // Function to parse input array from string
-vector&lt;int&gt; parseArray(const string&amp; input) {
-    vector&lt;int&gt; result;
+vector<int> parseArray(const string& input) {
+    vector<int> result;
     string temp = input;
     
     // Remove brackets
@@ -123,7 +124,7 @@ int main() {
     int cnt = stoi(cntStr);
     
     // Parse array and build tree
-    vector&lt;int&gt; arr = parseArray(rootStr);
+    vector<int> arr = parseArray(rootStr);
     TreeNode* root = buildTreeFromLevelOrder(arr);
     
     // Find kth largest
@@ -131,7 +132,7 @@ int main() {
     int result = solution.kthLargest(root, cnt);
     
     // Output result
-    cout &lt;&lt; result &lt;&lt; endl;
+    cout << result << endl;
     
     return 0;
 }
